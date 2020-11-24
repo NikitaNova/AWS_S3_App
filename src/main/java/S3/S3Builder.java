@@ -57,6 +57,7 @@ public class S3Builder {
 
     public void uploadObjectsToBucket(String bucketName, File file, String keyName){
         PutObjectRequest objectRequest = PutObjectRequest.builder()
+                .acl(ObjectCannedACL.PUBLIC_READ)
                 .bucket(bucketName)
                 .key(keyName)
                 .build();

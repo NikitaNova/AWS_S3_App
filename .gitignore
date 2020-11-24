@@ -1,0 +1,5 @@
+.gradle
+.idea
+build
+downloadedFile.txt
+helloWorldFile.txt
