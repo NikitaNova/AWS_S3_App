@@ -12,10 +12,10 @@ public class App {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         // Change these properties to your existing S3 account
-        String bucketName = "nikitas-first-bucket";
+        String bucketName = "tradexchange-voice";
         String filePath = "";
         String fileName = "helloWorldFile.txt";
-        String fileMessage = "Hello World V3";
+        String fileMessage = "Hello World V7";
 
         File file = App.createTxtFile(filePath+fileName, fileMessage);
 
@@ -41,6 +41,9 @@ public class App {
             outputStream.write(singleLine);
             singleLine = s3File.read();
         }
+
+//      List Objects
+        S3Builder.listBucketObjects(bucketName);
 
 //      DELETE
         System.out.println("Do you  want to delete " + fileName + "? Y/N\n");

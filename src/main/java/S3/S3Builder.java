@@ -7,9 +7,11 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.File;
+import java.util.List;
+import java.util.ListIterator;
 
 public class S3Builder {
-    S3Client s3Client;
+    static S3Client s3Client;
     Region region;
 
     public S3Builder(){
@@ -50,5 +52,34 @@ public class S3Builder {
                 .build();
 
         return s3Client.getObject(getObjectRequest);
+    }
+
+    public static void listBucketObjects(String bucketName ) {
+
+        try {
+            ListObjectsRequest listObjects = ListObjectsRequest
+                    .builder()
+            .bucket(bucketName)
+                    .build();
+
+            ListObjectsResponse res = s3Client.listObjects(listObjects);
+            List<S3Object> objects = res.contents();
+
+            for (ListIterator iterVals = objects.listIterator(); iterVals.hasNext(); ) {
+                System.out.println("    // S3  Object \\\\");
+                S3Object myValue = (S3Object) iterVals.next();
+                System.out.println("File Name: "+myValue.key());
+                System.out.println("Owner:  "+myValue.owner());
+                System.out.println("Tag: "+myValue.eTag());
+                System.out.println("Last Modified: "+myValue.lastModified());
+//                System.out.println("Other: "+myValue.sdkFields());
+                System.out.println("    // End  \\\\");
+
+            }
+
+        } catch (S3Exception e) {
+            System.err.println(e.awsErrorDetails().errorMessage());
+            System.exit(1);
+        }
     }
 }
